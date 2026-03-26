@@ -8,8 +8,8 @@ import SwiftUI
 enum Constants {
     static let bundleID = "com.kegeltimer.app"
     static let configKey = "com.kegeltimer.trainingConfig"
-    static let githubOwner = "marswaveai"
-    static let githubRepo = "KegelTimer"
+    static let githubOwner = "section9-lab"
+    static let githubRepo = "Kegel"
     static let appZipName = "KegelTimer.app.zip"
     static let appName = "KegelTimer"
     static let flowerEmoji = "🌼"
