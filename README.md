@@ -4,7 +4,7 @@
 
 [English](README_EN.md) | [日本語](README_JP.md)
 
-![KegelTimer 截图](assets/hero.webp)
+![KegelTimer 截图](assets/KegelTimer.png)
 
 ## 简介
 
