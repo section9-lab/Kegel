@@ -4,7 +4,7 @@
 
 [中文](README.md) | [日本語](README_JP.md)
 
-![KegelTimer Screenshot](assets/KegelTimer.png)
+![KegelTimer Screenshot](assets/KegelTimer.jpg)
 
 ## Introduction
 
