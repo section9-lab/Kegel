@@ -198,6 +198,16 @@ final class AppState: ObservableObject {
             phase = .completed
             trainingTimer?.invalidate()
             onOverlayRequest?(true)
+            
+            // Auto-close overlay after 3 seconds to avoid bothering the user
+            trainingTimerID += 1
+            let currentID = trainingTimerID
+            trainingTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+                Task { @MainActor in
+                    guard let self = self, self.trainingTimerID == currentID else { return }
+                    self.stopTraining()
+                }
+            }
         } else {
             currentRepetition += 1
             runNextPhase()
