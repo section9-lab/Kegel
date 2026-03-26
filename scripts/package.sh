@@ -31,6 +31,6 @@ chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
 
 # 打包
 cd "$DIST_DIR"
-zip -r "../$APP_NAME.app.zip" "$APP_NAME.app"
+zip -r "$APP_NAME.app.zip" "$APP_NAME.app"
 
-echo "Build Completed: $APP_NAME.app.zip"
+echo "Build Completed: $DIST_DIR/$APP_NAME.app.zip"
