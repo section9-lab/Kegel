@@ -16,50 +16,50 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+        run: sudo xcode-select -s /Applications/Xcode_16.app
 
       - name: Cache SwiftPM Dependencies
         uses: actions/cache@v4
         with:
           path: .build
           key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.swift') }}
-          - name: Select Xcode
-            run: sudo xcode-select -s /Applications/Xcode_16.app
+          restore-keys: |
+            ${{ runner.os }}-spm-
 
-          - name: Build App
-            run: |
-              swift build -c release --arch arm64
+      - name: Build App
+        run: |
+          swift build -c release --arch arm64
 
-          - name: Create App Bundle
-            run: |
-              APP_NAME="KegelTimer"
-              DIST_DIR="dist"
-              APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
+      - name: Create App Bundle
+        run: |
+          APP_NAME="KegelTimer"
+          DIST_DIR="dist"
+          APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
+          
+          # 创建标准的 .app 目录结构
+          mkdir -p "$APP_BUNDLE/Contents/MacOS"
+          mkdir -p "$APP_BUNDLE/Contents/Resources"
+          
+          # 拷贝二进制文件 (仅 arm64)
+          cp .build/arm64-apple-macosx/release/Kegel "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
+          
+          # 拷贝 Info.plist (如果需要)
+          cp App/Info.plist "$APP_BUNDLE/Contents/Info.plist"
+          
+          # 拷贝图标 (确保与 Info.plist 的 CFBundleIconFile 匹配)
+          if [ -f "App/KegelTimer.icns" ]; then
+            cp App/KegelTimer.icns "$APP_BUNDLE/Contents/Resources/KegelTimer.icns"
+          fi
+          
+          # 修正权限
+          chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
+          
+          # 打包
+          cd "$DIST_DIR"
+          zip -r "../$APP_NAME-AppleSilicon.zip" "$APP_NAME.app"
 
-              # 创建标准的 .app 目录结构
-              mkdir -p "$APP_BUNDLE/Contents/MacOS"
-              mkdir -p "$APP_BUNDLE/Contents/Resources"
-
-              # 拷贝二进制文件 (仅 arm64)
-              cp .build/arm64-apple-macosx/release/Kegel "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
-
-              # 拷贝 Info.plist (如果需要)
-              cp App/Info.plist "$APP_BUNDLE/Contents/Info.plist"
-
-              # 拷贝图标 (确保与 Info.plist 的 CFBundleIconFile 匹配)
-              if [ -f "App/KegelTimer.icns" ]; then
-                cp App/KegelTimer.icns "$APP_BUNDLE/Contents/Resources/KegelTimer.icns"
-              fi
-
-              # 修正权限
-              chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
-
-              # 打包
-              cd "$DIST_DIR"
-              zip -r "../$APP_NAME-AppleSilicon.zip" "$APP_NAME.app"
-
-          - name: Upload Build Artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: KegelTimer-macOS-arm64
-              path: KegelTimer-AppleSilicon.zip
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KegelTimer-macOS-arm64
+          path: KegelTimer-AppleSilicon.zip
