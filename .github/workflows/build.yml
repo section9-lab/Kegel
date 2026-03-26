@@ -1,10 +1,14 @@
-name: Build & Test
+name: Build & Release
 
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ] # 当推送形如 v1.0.0 的 tag 时触发
   pull_request:
     branches: [ main ]
+
+permissions:
+  contents: write # 必须开启写入权限以创建 Release
 
 jobs:
   build:
@@ -55,8 +59,28 @@ jobs:
           cd "$DIST_DIR"
           zip -r "../$APP_NAME-AppleSilicon.zip" "$APP_NAME.app"
 
-      - name: Upload Build Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: KegelTimer-macOS-arm64
           path: KegelTimer-AppleSilicon.zip
+
+  release:
+    name: Release to GitHub
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') # 仅在推送 tag 时运行
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: KegelTimer-macOS-arm64
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: KegelTimer-AppleSilicon.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
