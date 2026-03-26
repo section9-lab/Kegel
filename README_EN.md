@@ -1,143 +1,96 @@
 # KegelTimer
 
-**Kegel Exercise Timer for macOS · Timed Reminders · Privacy First**
+**macOS Kegel Exercise Timer · Smart Reminders · Privacy First**
 
 [中文](README.md) | [日本語](README_JP.md)
 
-![KegelTimer Screenshot](assets/screenshot.png)
+![KegelTimer Screenshot](assets/hero.webp)
 
 ## Introduction
 
-KegelTimer is a minimal macOS menu bar app that helps you build a habit of doing Kegel exercises on schedule.
+KegelTimer is a minimalist macOS menu bar application designed to help you build a habit of regular Kegel exercises.
 
-- ⏰ **Countdown Reminder**: Set interval time, automatic popup reminder
-- 🌻 **Flower Animation**: Blooms during contraction, closes during relaxation
-- 📊 **Progress Tracking**: Segmented progress bar shows training progress
-- 🔒 **Privacy First**: No accounts, no data collection, fully local
+- ⏰ **Smart Reminders**: Customizable intervals with automatic pop-ups.
+- 🌻 **Dynamic Interaction**: Follow the blooming flower animation for contraction and relaxation.
+- 📊 **Smooth Progress**: New segmented progress bar for real-time tracking of your session.
+- 🚀 **Instant Start**: Click and start immediately—no unnecessary delays.
+- 🔒 **Privacy First**: No account required, no data collection, 100% local operation.
+- 💻 **Native Support**: Fully optimized for Apple Silicon (M1/M2/M3).
 
 ---
 
 ## Quick Start
 
-### 1. Download & Install
+### 1. Installation
 
-```bash
-# Download from GitHub Releases
-https://github.com/marswaveai/KegelTimer/releases/latest
-```
+Go to [GitHub Releases](https://github.com/section9-lab/Kegel/releases/latest) and download the latest `KegelTimer-AppleSilicon.zip`. Unzip it and drag `KegelTimer.app` into your `/Applications` folder.
 
-Download `KegelTimer.app.zip` → Unzip → Drag to `/Applications` folder
+### 2. Basic Operation
 
-### 2. First Use
-
-1. Open KegelTimer (🍑 icon appears in menu bar)
-2. Click icon → **Settings...** → Adjust reminder interval (default: 60 minutes)
-3. Wait for countdown to end, or manually click **Start Training**
-
-### 3. Training Flow
-
-```
-Countdown ends → Card pops up + beep → 
-Follow flower animation (contract → relax) → 
-Complete all sets → Click × to close → Countdown restarts
-```
+1. **Enable Reminders**: Launch the app, and the 🌼 icon will appear in your menu bar.
+2. **Custom Settings**: Click the icon → **Settings...** (⌘,) to adjust intervals, durations, and repetitions.
+3. **Start Training**: Wait for the reminder to pop up, or click **Start/Pause** in the menu bar at any time.
 
 ---
 
-## Features
+## Feature Highlights
 
-### Main Interface
+### Interactive Overlay
 
-| State | Display | Action |
-|-------|---------|--------|
-| Idle | Next reminder in: X min | Click card to start |
-| Training | Flower animation + Progress bar | Click card to pause/resume |
-| Complete | ✅ Session Complete! | Auto-close or click × |
+- **Smart Hover**: The close button reveals itself only when your mouse is nearby, keeping the UI clean.
+- **Real-time Countdown**: Displays remaining seconds for the current phase directly in the overlay.
+- **Status Badge**: Elegant "Next reminder" capsule tag with smooth animations.
 
-### Flower Animation
+### Evolved Progress Bar
 
-- **Bloom** (Contract): Hold for X seconds (configurable 1-10 sec)
-- **Close** (Relax): Hold for X seconds (configurable 1-10 sec)
-
-### Progress Bar
-
-- Each segment represents one repetition
-- Green = Completed, Gray = Remaining
-- Bottom shows current set/total sets
+- **Phase Splitting**: Each repetition is split equally between contraction and relaxation phases.
+- **Consistent Growth**: The bar fills smoothly from left to right for both phases, providing an intuitive experience.
 
 ---
 
-## Settings
+## Settings Explained
 
-Open **Settings...** (shortcut `⌘,`) to adjust:
-
-| Option | Range | Default | Description |
-|--------|-------|---------|-------------|
-| **Remind Every** | 5-240 min | 60 min | How often to remind |
-| **Contraction** | 1-10 sec | 5 sec | Hold duration for contraction |
-| **Relaxation** | 1-10 sec | 5 sec | Rest duration between reps |
-| **Repetitions** | 1-30 reps | 10 reps | Reps per set |
-| **Sets** | 1-10 sets | 3 sets | Sets per session |
-| **Rest Between Sets** | 10-180 sec | 60 sec | Break between sets |
-
-### Example Configurations
-
-**Beginner Mode** (~3 minutes):
-- Contract 3 sec, Relax 3 sec
-- 5 reps per set, 2 sets
-- 30 sec rest between sets
-
-**Advanced Mode** (~10 minutes):
-- Contract 10 sec, Relax 5 sec
-- 15 reps per set, 5 sets
-- 60 sec rest between sets
+| Option | Range | Description |
+|------|------|------|
+| **Interval** | 5-240 min | Time between training sessions |
+| **Contract** | 1-15 sec | Duration to hold each muscle contraction |
+| **Relax** | 1-15 sec | Rest time after each contraction |
+| **Reps** | 5-50 reps | Number of repetitions per session |
 
 ---
 
 ## FAQ
 
-### Q: What are Kegel exercises?
+### Q: Does it support Intel processors?
+A: Current releases are optimized for Apple Silicon (M-series). Intel users can compile the app from source.
 
-A: Kegel exercises strengthen the pelvic floor muscles, which support the bladder, bowel, and uterus. Consult a healthcare provider before starting any exercise routine.
+### Q: Why does training start immediately?
+A: To improve efficiency, we removed the preparation countdown. Please be ready when you start.
 
-### Q: How do I dismiss the reminder?
-
-A: Click the × button in the top-right corner of the card to close and reset the countdown. You can also click the menu bar icon → Stop Training.
-
-### Q: Does it collect my data?
-
-A: **No**. All data is stored locally in UserDefaults and never uploaded to any server.
-
-### Q: Is Apple Silicon supported?
-
-A: Yes. Built with native Swift, supports both Intel and Apple Silicon Macs.
-
-### Q: Minimum system requirements?
-
-A: macOS 14.0 (Sonoma) or later.
+### Q: How is my data handled?
+A: The app runs completely locally. All configurations are stored in system `UserDefaults`. No data is ever uploaded.
 
 ---
 
-## Tech Stack
+## Technical Specifications
 
-- **Language**: Swift 6.2
-- **Frameworks**: SwiftUI + AppKit
-- **Architecture**: Single-file app (~900 lines)
-- **Updates**: GitHub Releases auto-update
+- **Language**: Swift 6.0
+- **Framework**: SwiftUI + AppKit
+- **Architecture**: Reactive State Management (Combine + @MainActor)
+- **Deployment**: Automated Pipeline via GitHub Actions
 
 ---
 
-## Build Instructions
+## Developer Guide
+
+To build or contribute to the project:
 
 ```bash
-git clone https://github.com/marswaveai/KegelTimer.git
-cd KegelTimer
+git clone https://github.com/section9-lab/Kegel.git
+cd Kegel
 
-# Generate icon (optional, pre-generated icon included)
-./scripts/generate_icon.sh
-
-# Build app
-./scripts/build_app.sh
+# Build and package locally
+bash scripts/package.sh
 
 # Output location
 dist/KegelTimer.app
@@ -148,28 +101,21 @@ dist/KegelTimer.app
 ## Changelog
 
 ### v1.0.0
-- ✨ Initial release
-- ⏰ Countdown reminder feature
-- 🌻 Flower animation effect
-- 📊 Segmented progress bar
-- 🔄 Auto-update mechanism
-
----
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=marswaveai/KegelTimer&type=Date)](https://star-history.com/#marswaveai/KegelTimer&Date)
+- ✨ **Workflow Overhaul**: Removed prep countdown for instant training.
+- 🎨 **UI Upgrade**: New overlay design with hover interactions and optimized corners.
+- 📊 **Progress Logic**: Redesigned progress bar with phase splitting and left-to-right filling.
+- ⚙️ **Stability**: Fixed timer concurrency issues and improved state safety.
+- 🤖 **CI/CD**: Integrated GitHub Actions for automated Apple Silicon builds.
 
 ---
 
 ## License
 
-GNU General Public License v3.0
+This project is licensed under [GNU General Public License v3.0](LICENSE).
 
 ---
 
-## Links
+## Community & Feedback
 
-- [GitHub Repository](https://github.com/marswaveai/KegelTimer)
-- [Issue Tracker](https://github.com/marswaveai/KegelTimer/issues)
-- [Official Website](https://kegeltimer.com)
+- [Submit an Issue](https://github.com/section9-lab/Kegel/issues)
+- [Repository](https://github.com/section9-lab/Kegel)
