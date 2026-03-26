@@ -311,6 +311,7 @@ struct ProgressBar: View {
 struct OverlayView: View {
     @ObservedObject var state: AppState
     @State private var flowerScale: CGFloat = 0.3
+    @State private var isHovered: Bool = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -328,9 +329,12 @@ struct OverlayView: View {
         }
         .padding(20)
         .frame(width: 280, height: 160)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.primary.opacity(0.05)))
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.primary.opacity(0.05)))
         .onTapGesture { state.togglePause() }
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) { isHovered = hovering }
+        }
         .onChange(of: state.isContracting) { _, val in
             withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) { flowerScale = val ? 1.0 : 0.3 }
         }
@@ -345,13 +349,29 @@ struct OverlayView: View {
     private var header: some View {
         HStack {
             if state.phase == .idle {
-                Text(L("Next in: ", "下次：") + "\(state.reminderCountdownMinutes)m")
-                    .font(.system(size: 10, weight: .medium)).opacity(0.5)
+                HStack(spacing: 4) {
+                    Image(systemName: "clock.fill")
+                        .font(.system(size: 8))
+                    Text(L("Next in: ", "下次：") + "\(state.reminderCountdownMinutes)m")
+                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.primary.opacity(0.08))
+                .clipShape(Capsule())
+                .transition(.opacity.combined(with: .scale))
             }
             Spacer()
             Button(action: { state.stopTraining() }) {
-                Image(systemName: "xmark.circle.fill").opacity(0.3)
-            }.buttonStyle(.plain)
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 18))
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(.secondary)
+                    .contentShape(Rectangle()) // 扩大点击热区
+            }
+            .buttonStyle(.plain)
+            .opacity(isHovered ? 1.0 : 0.2)
+            .help(L("Close", "关闭"))
         }
     }
     

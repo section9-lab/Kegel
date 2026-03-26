@@ -1,0 +1,65 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build and Package
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Cache SwiftPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build App
+        run: |
+          swift build -c release --arch arm64 --arch x86_64
+          
+      - name: Create App Bundle
+        run: |
+          APP_NAME="KegelTimer"
+          DIST_DIR="dist"
+          APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
+          
+          # 创建标准的 .app 目录结构
+          mkdir -p "$APP_BUNDLE/Contents/MacOS"
+          mkdir -p "$APP_BUNDLE/Contents/Resources"
+          
+          # 拷贝二进制文件 (通用二进制)
+          cp .build/apple/Products/Release/Kegel "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
+          
+          # 拷贝 Info.plist (如果需要)
+          cp App/Info.plist "$APP_BUNDLE/Contents/Info.plist"
+          
+          # 拷贝图标 (确保与 Info.plist 的 CFBundleIconFile 匹配)
+          if [ -f "App/KegelTimer.icns" ]; then
+            cp App/KegelTimer.icns "$APP_BUNDLE/Contents/Resources/KegelTimer.icns"
+          fi
+          
+          # 修正权限
+          chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
+          
+          # 打包
+          cd "$DIST_DIR"
+          zip -r "../$APP_NAME.app.zip" "$APP_NAME.app"
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KegelTimer-macOS
+          path: KegelTimer.zip
