@@ -38,6 +38,7 @@ Go to [GitHub Releases](https://github.com/section9-lab/Kegel/releases/latest) a
 ### Interactive Overlay
 
 - **Smart Hover**: The close button reveals itself only when your mouse is nearby, keeping the UI clean.
+- **Auto-Close**: Displays "Great Job!" after training and automatically closes the window after 3 seconds to avoid work interruption.
 - **Real-time Countdown**: Displays remaining seconds for the current phase directly in the overlay.
 - **Status Badge**: Elegant "Next reminder" capsule tag with smooth animations.
 
@@ -99,6 +100,10 @@ dist/KegelTimer.app
 ---
 
 ## Changelog
+
+### v1.0.1
+- 🚀 **Smart Auto-Close**: Added a 3-second auto-close feature after training completion.
+- 🖼️ **Asset Optimization**: Optimized screenshot size for faster loading.
 
 ### v1.0.0
 - ✨ **Workflow Overhaul**: Removed prep countdown for instant training.
